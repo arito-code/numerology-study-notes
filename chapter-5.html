@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第5章 カバラ、それを超えて — 学習ノート</title>
+  <style>
+    :root {
+      --green: #1F4D3A; --gold: #C6A85C; --beige: #F5F3E7;
+      --navy: #243A5E; --ink: #17352D; --text: #21342F;
+      --muted: #6B7A75; --line: #E4E2D8; --white: #fff;
+      --radius: 6px; --max: 900px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    .study-note {
+      font-family: "Inter", "Zen Kaku Gothic New", system-ui, sans-serif;
+      color: var(--text);
+      background: linear-gradient(90deg, #fff 0%, #fff 55%, #fbfaf4 100%);
+      line-height: 1.85; letter-spacing: 0.02em;
+      padding: 48px 24px 96px;
+    }
+    .wrap { max-width: var(--max); margin: 0 auto; }
+    .hero { padding-bottom: 40px; border-bottom: 1px solid var(--line); margin-bottom: 48px; }
+    .hero-label { font-size: 12px; font-weight: 800; letter-spacing: 0.28em; color: var(--gold); margin: 0 0 12px; }
+    h1 { font-size: clamp(28px, 4vw, 36px); font-weight: 900; color: var(--green); margin: 0 0 16px; line-height: 1.35; }
+    .hero-meta { font-size: 14px; color: var(--muted); font-weight: 600; margin: 0; }
+    .hero-meta strong { color: var(--ink); }
+    .toc { background: var(--beige); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 48px; }
+    .toc h2 { font-size: 14px; color: var(--green); margin: 0 0 12px; }
+    .toc ol { margin: 0; padding-left: 1.4em; font-size: 13px; font-weight: 600; color: #3a4a45; columns: 2; column-gap: 24px; }
+    @media (max-width: 640px) { .toc ol { columns: 1; } }
+    .toc a { color: var(--green); text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .page-section { margin-bottom: 56px; padding-bottom: 56px; border-bottom: 1px solid var(--line); }
+    .page-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.2em; color: var(--white); background: var(--green); padding: 4px 10px; border-radius: 3px; margin-bottom: 8px; }
+    h2 { font-size: clamp(20px, 3vw, 26px); font-weight: 900; color: var(--green); margin: 0 0 16px; }
+    h3 { font-size: 17px; font-weight: 800; color: var(--navy); margin: 28px 0 10px; }
+    p, li { font-size: 15px; font-weight: 600; color: #3a4a45; }
+    p { margin: 0 0 1em; }
+    .lead { padding: 16px 20px; background: var(--beige); border-left: 4px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 20px; font-weight: 700; color: var(--ink); }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 20px; font-size: 13px; font-weight: 700; }
+    th { background: var(--green); color: var(--white); padding: 8px 10px; text-align: left; }
+    td { padding: 8px 10px; border-bottom: 1px solid var(--line); background: var(--white); }
+    tr:nth-child(even) td { background: #faf9f4; }
+    .table-scroll { overflow-x: auto; margin: 16px 0 20px; }
+    details { margin: 12px 0 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+    details[open] { border-color: rgba(31,77,58,.25); }
+    summary { cursor: pointer; padding: 12px 16px; font-size: 14px; font-weight: 800; color: var(--green); background: #faf9f4; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: "＋ "; color: var(--gold); font-weight: 900; }
+    details[open] summary::before { content: "－ "; }
+    .detail-body { padding: 14px 16px 16px; font-size: 14px; border-top: 1px solid var(--line); color: #4a5a55; }
+    .formula { display: inline-block; padding: 8px 14px; background: var(--beige); border-radius: var(--radius); font-family: "Cambria Math", serif; font-size: 16px; font-weight: 700; margin: 8px 0 12px; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+    .tag { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 3px; background: var(--beige); color: var(--green); border: 1px solid var(--line); }
+    .tree-diagram { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; max-width: 420px; margin: 20px auto; text-align: center; font-size: 11px; font-weight: 800; }
+    .tree-diagram .node { padding: 8px 4px; background: var(--white); border: 2px solid var(--green); border-radius: 4px; color: var(--ink); }
+    .tree-diagram .node.center { background: var(--beige); border-color: var(--gold); }
+    .tree-diagram .span3 { grid-column: 1 / -1; }
+    .tree-diagram .empty { visibility: hidden; border: none; background: none; }
+    .closing { padding: 24px 28px; background: linear-gradient(135deg, var(--beige) 0%, #fbfaf4 100%); border: 1px solid var(--line); border-radius: var(--radius); margin-top: 32px; }
+    footer { margin-top: 48px; font-size: 12px; color: var(--muted); text-align: center; font-weight: 600; }
+    .hebrew { font-family: "Times New Roman", serif; font-size: 1.1em; direction: rtl; }
+  </style>
+</head>
+<body>
+<div class="study-note">
+<div class="wrap">
+
+<header class="hero">
+  <p class="hero-label">SCHOOL STUDY NOTE — CHAPTER 5</p>
+  <h1>第5章「カバラ、それを超えて」<br>学習ノート</h1>
+  <p class="hero-meta">
+    出典：<strong>『数秘術』ジョン・キング著</strong>　／　pp.162–198<br>
+    用途：スクール内・研修用　／　<span style="color:var(--gold)">▶ 緑色の見出しをクリックすると解説が開きます</span><br>
+    <a href="/" style="color:var(--green)">← 目次に戻る</a>
+  </p>
+</header>
+
+<nav class="toc">
+  <h2>目次（ページ順）</h2>
+  <ol>
+    <li><a href="#p162">p.162–163</a> カバラの定義・ユダヤの歴史</li>
+    <li><a href="#p164">p.164–165</a> 聖書翻訳・創世の書・ゾハル</li>
+    <li><a href="#p166">p.166–167</a> 三つの解読法・22文字</li>
+    <li><a href="#p168">p.168–169</a> アレフ・表3</li>
+    <li><a href="#p170">p.170–174</a> 各文字の象徴</li>
+    <li><a href="#p175">p.175</a> ベレシト（Berashith）= 913</li>
+    <li><a href="#p176">p.176–178</a> 創世の書の文字分類</li>
+    <li><a href="#p179">p.179</a> 「光あれ」のゲマトリア</li>
+    <li><a href="#p180">p.180–181</a> アダム・カドモン</li>
+    <li><a href="#p182">p.182–183</a> 四界・シェキナー</li>
+    <li><a href="#p184">p.184–185</a> 生命の樹・ケテル</li>
+    <li><a href="#p186">p.186–195</a> 十セフィロト</li>
+    <li><a href="#p196">p.196–198</a> 表4・タロット・章の結び</li>
+  </ol>
+</nav>
+
+<!-- p162-163 -->
+<section class="page-section" id="p162">
+  <span class="page-tag">p.162 – p.163</span>
+  <h2>カバラとは何か</h2>
+  <p class="lead">カバラ（קבלה）＝ヘブライ語で「受け取る」。独立宗教ではなく、ユダヤ教の中で発展した神秘思想・数の魔術の伝統。</p>
+  <ul>
+    <li><strong>A.E. ウェイト：</strong>「受領・受け取り」</li>
+    <li><strong>ゲルショム・ショーレム：</strong>「伝統」</li>
+    <li><strong>ミゲーネ・ゴンザレス＝ウィップラー：</strong>数の魔術に不可欠。神・宇宙・人間の運命についての永遠の問いに答える哲学体系。数字的対応が実践の基礎。</li>
+  </ul>
+
+  <details>
+    <summary>解説：カバラを一言で（高校生向け）</summary>
+    <div class="detail-body">
+      <p>ユダヤ教の経典（とくに旧約）の<strong>文字・数字・象徴</strong>を深く読み解く伝統。キリスト教神秘主義・西洋魔術・現代数秘術の源流のひとつ。科学ではなく「意味の読み方」の体系。</p>
+    </div>
+  </details>
+
+  <h3>ユダヤの歴史と言語（p.163）</h3>
+  <ul>
+    <li>紀元前2000年頃：ヘブライ部族が肥沃な三日月地帯へ。半遊牧、 patriarch（族長）社会。</li>
+    <li>紀元前500年頃：ヘブライ語は日常語として衰え、<strong>アラム語</strong>（イエスも話した言語）が普及。</li>
+    <li><strong>バビロン捕囚</strong>（70年）：帰還後、一般の人はヘブライ語聖書を読めず → <strong>タルグム</strong>（アラム語訳・義解）が生まれる。</li>
+    <li>プトレマイオス2世：七十人訳（セプトゥアジント）——ギリシャ語訳。アレクサンドリアの<strong>エッセネ派</strong>が関与。</li>
+  </ul>
+
+  <details>
+    <summary>解説：バビロン捕囚・タルグム</summary>
+    <div class="detail-body">
+      <p><strong>バビロン捕囚</strong>（紀元前586年頃）：エルサレム陥落後、ユダヤ人がバビロニアに移住した時代。帰還後も言語がアラム語中心に。<strong>タルグム</strong>＝会堂でヘブライ語を読んだあとアラム語で説明する習慣から生まれた口頭・筆写の訳注。</p>
+    </div>
+  </details>
+</section>
+
+<!-- p164-165 -->
+<section class="page-section" id="p164">
+  <span class="page-tag">p.164 – p.165</span>
+  <h2>聖書の翻訳とカバラ文献</h2>
+  <ul>
+    <li><strong>七十人訳：</strong>翻訳で意味が変わる例——ANATHEMA（αναθεμα）はもともと「奉献」→後に「呪われたもの」へ。</li>
+    <li><strong>ウルガタ</strong>（聖ヒエロニムス・ラテン語）、<strong>ウィクリフ</strong>、<strong>タインデール</strong>、<strong>欽定訳</strong>（1611）。</li>
+    <li><strong>トーラー</strong>＝モーセ五書。書面の律法と口伝の律法。</li>
+    <li><strong>タルムード：</strong>厳密なカバラ文献ではないが、哲学・占星術・数秘術の要素を含む。</li>
+  </ul>
+
+  <h3>創世の書（Sefer Yetzirah）</h3>
+  <p>最古・最重要のカバラ文献のひとつ。22文字と宇宙創造。ラビ・アキバ（ハドリアヌス皇帝時代）帰属の伝説。920年サーディア・ガオンの阿拉伯語訳、1552年ポステルのラテン語訳。</p>
+
+  <h3>ゾハル（Zohar）</h3>
+  <p>第二の大文献。シメオン・ベン・ヨハイが13年洞窟で執筆したとされるが、実際は13世紀スペインの<strong>モーゼス・デ・レオン</strong>が編纂した可能性が高い。</p>
+
+  <details>
+    <summary>解説：創世の書とゾハルの違い</summary>
+    <div class="detail-body">
+      <p><strong>創世の書</strong>＝短い、体系的、文字・数・元素の対応表。<strong>ゾハル</strong>＝長大な神秘論的コメント、物語調。どちらも「ヘブライ文字＝宇宙の設計図」という考えの中心。</p>
+    </div>
+  </details>
+</section>
+
+<!-- p166-167 -->
+<section class="page-section" id="p166">
+  <span class="page-tag">p.166 – p.167</span>
+  <h2>三つの解読法とヘブライ文字</h2>
+  <p class="lead">カバラの実践＝聖句を三つの方法で読み解く。</p>
+  <table>
+    <thead><tr><th>方法</th><th>ヘブライ語</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td>ゲマトリア</td><td>Gematria</td><td>文字の数値。同じ和の語は関連する</td></tr>
+      <tr><td>ノタリコン</td><td>Notarikon</td><td>頭文字・末尾文字を並べて新語を作る</td></tr>
+      <tr><td>テムラー</td><td>Temurah</td><td>文字の置換・並べ替え（暗号）</td></tr>
+    </tbody>
+  </table>
+  <p>22のヘブライ文字＝音でもあり数でもある。<span class="hebrew">א</span>（アレフ）＝雄牛＝1。「初めに言葉ありき」——言葉の魔術的力はピタゴラス派・古代ケルトにも通じる。</p>
+
+  <details>
+    <summary>解説：ゲマトリアのやり方（例）</summary>
+    <div class="detail-body">
+      <p>ヘブライ語は母音を書かず子音のみ。<span class="hebrew">חי</span>（Chai＝「生命」）＝8+10＝<strong>18</strong>。18は「生きる」の数として縁起が良いとされる。同じ数になる別の語を探して「隠された意味」を読むのがゲマトリア。</p>
+    </div>
+  </details>
+</section>
+
+<!-- p168-169 -->
+<section class="page-section" id="p168">
+  <span class="page-tag">p.168 – p.169</span>
+  <h2>アレフ（א）と表3 — ヘブライアルファベット</h2>
+  <p>字義＝雄牛、比喩＝富。独立・創造・革新。ショーレムが重視。<strong>ラビ・メンデル：</strong>十戒で民が聞いたのは「アノキ（我は）」の<strong>アレフだけ</strong>——無音に近い声門閉鎖音。アレフ＝すべての文字の精神的起源。</p>
+
+  <h3>表3 — 22文字＋終形字</h3>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>文字</th><th>英</th><th>名前</th><th>意味</th><th>数値</th></tr></thead>
+    <tbody>
+      <tr><td class="hebrew">א</td><td>A</td><td>アレフ</td><td>雄牛</td><td>1</td></tr>
+      <tr><td class="hebrew">ב</td><td>B</td><td>ベト</td><td>家</td><td>2</td></tr>
+      <tr><td class="hebrew">ג</td><td>G</td><td>ギーメル</td><td>ラクダ</td><td>3</td></tr>
+      <tr><td class="hebrew">ד</td><td>D</td><td>ダーレト</td><td>扉</td><td>4</td></tr>
+      <tr><td class="hebrew">ה</td><td>H</td><td>ヘー</td><td>窓</td><td>5</td></tr>
+      <tr><td class="hebrew">ו</td><td>V</td><td>ヴァヴ</td><td>釘・钩</td><td>6</td></tr>
+      <tr><td class="hebrew">ז</td><td>Z</td><td>ザイン</td><td>武器</td><td>7</td></tr>
+      <tr><td class="hebrew">ח</td><td>Ch</td><td>ヘト</td><td>囲い</td><td>8</td></tr>
+      <tr><td class="hebrew">ט</td><td>T</td><td>テト</td><td>蛇</td><td>9</td></tr>
+      <tr><td class="hebrew">י</td><td>Y</td><td>ヨッド</td><td>手</td><td>10</td></tr>
+      <tr><td class="hebrew">כ/ך</td><td>K</td><td>カフ</td><td>掌</td><td>20 / 500</td></tr>
+      <tr><td class="hebrew">ל</td><td>L</td><td>ラーメド</td><td>突き棒</td><td>30</td></tr>
+      <tr><td class="hebrew">מ/ם</td><td>M</td><td>メム</td><td>水</td><td>40 / 600</td></tr>
+      <tr><td class="hebrew">נ/ן</td><td>N</td><td>ヌーン</td><td>魚</td><td>50 / 700</td></tr>
+      <tr><td class="hebrew">ס</td><td>S</td><td>サーメク</td><td>支持</td><td>60</td></tr>
+      <tr><td class="hebrew">ע</td><td>O</td><td>アイン</td><td>目</td><td>70</td></tr>
+      <tr><td class="hebrew">פ/ף</td><td>P</td><td>ペー</td><td>口</td><td>80 / 800</td></tr>
+      <tr><td class="hebrew">צ/ץ</td><td>Tz</td><td>ツァディ</td><td>釣り針</td><td>90 / 900</td></tr>
+      <tr><td class="hebrew">ק</td><td>Q</td><td>クォフ</td><td>後頭</td><td>100</td></tr>
+      <tr><td class="hebrew">ר</td><td>R</td><td>レーシュ</td><td>頭</td><td>200</td></tr>
+      <tr><td class="hebrew">ש</td><td>Sh</td><td>シン</td><td>歯</td><td>300</td></tr>
+      <tr><td class="hebrew">ת</td><td>Th</td><td>タヴ</td><td>十字印</td><td>400</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><small>終形字（語末）：ך500、ם600、ן700、ף800、ץ900</small></p>
+</section>
+
+<!-- p170-174 letters summary -->
+<section class="page-section" id="p170">
+  <span class="page-tag">p.170 – p.174</span>
+  <h2>各文字の象徴（要約）</h2>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>文字</th><th>字面の意味</th><th>奥義的・文化的連想</th></tr></thead>
+    <tbody>
+      <tr><td>ベト(2)</td><td>家</td><td>家庭・血統・大地の母</td></tr>
+      <tr><td>ギーメル(3)</td><td>ラクダ</td><td>砂漠の自然・創世記第一語</td></tr>
+      <tr><td>ダーレト(4)</td><td>扉</td><td>接近と拒絶；ケルト語Duir＝樫</td></tr>
+      <tr><td>ヘー(5)</td><td>窓</td><td>啓示・息・観察</td></tr>
+      <tr><td>ヴァヴ(6)</td><td>釘</td><td>自由・ビナー（大母）の性質</td></tr>
+      <tr><td>ザイン(7)</td><td>武器</td><td>防御・宗教的権威</td></tr>
+      <tr><td>ヘト(8)</td><td>囲い</td><td>識別力・内室</td></tr>
+      <tr><td>テト(9)</td><td>蛇</td><td>性的エネルギー・ケーリュケイオンの杖</td></tr>
+      <tr><td>ヨッド(10)</td><td>手</td><td>神の手・運命</td></tr>
+      <tr><td>カフ(20)</td><td>掌</td><td>手当て・気（エネルギー）</td></tr>
+      <tr><td>ラーメド(30)</td><td>突き棒</td><td>前進・自己犠牲</td></tr>
+      <tr><td>メム(40)</td><td>水</td><td>40日40夜（洪水・荒野）</td></tr>
+      <tr><td>ヌーン(50)</td><td>魚</td><td>救済・初期キリスト教の秘密記号</td></tr>
+      <tr><td>サーメク(60)</td><td>支持</td><td>相互依存・多面性</td></tr>
+      <tr><td>アイン(70)</td><td>目</td><td>洞察・歓楽（178頁）</td></tr>
+      <tr><td>ペー(80)</td><td>口</td><td>創造を先立つ言葉</td></tr>
+      <tr><td>ツァディ(90)</td><td>釣り針</td><td>想像力・完成（90＝10×9）</td></tr>
+      <tr><td>クォフ(100)</td><td>後頭</td><td>直観・内なる光</td></tr>
+      <tr><td>レーシュ(200)</td><td>頭</td><td>外見・個性</td></tr>
+      <tr><td>シン(300)</td><td>歯</td><td>聖なる火・変容</td></tr>
+      <tr><td>タヴ(400)</td><td>十字</td><td>神の霊・エジプトのアンク</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- p175 -->
+<section class="page-section" id="p175">
+  <span class="page-tag">p.175</span>
+  <h2>「ベレシト」（Berashith）＝ 913</h2>
+  <p>創世記1:1 最初の語「初めに」のゲマトリア：</p>
+  <div class="formula">ב(2)+ר(200)+א(1)+ש(300)+י(10)+ת(400) = 913</div>
+  <ul>
+    <li>ベト(2)＝原型的女性・万物の母</li>
+    <li>レーシュ(200)＝住まい・血統</li>
+    <li>アレフ(1)＝父・「光あれ」の命令</li>
+    <li>シン(300)＝神の霊</li>
+    <li>ヨッド(10)＝神の手</li>
+    <li>タヴ(400)＝神の霊</li>
+  </ul>
+  <details>
+    <summary>解説：なぜ913を分解するのか</summary>
+    <div class="detail-body">
+      <p>カバラは「一語＝一つの物語」と読む。913を別の語の和と等しく見つけると、創世の別の側面が「数で証明」されたことになる——数秘術的な読解の典型例。</p>
+    </div>
+  </details>
+</section>
+
+<!-- p176-178 -->
+<section class="page-section" id="p176">
+  <span class="page-tag">p.176 – p.178</span>
+  <h2>創世の書による22文字の三分法</h2>
+  <h3>母なる文字（3）— 元素</h3>
+  <div class="tag-row">
+    <span class="tag">א アレフ＝空気</span>
+    <span class="tag">מ メム＝水</span>
+    <span class="tag">ש シン＝火</span>
+  </div>
+  <p>火→天、水→地、空気→その間。季節・人体（頭・腹・胸）にも対応。</p>
+
+  <h3>二重文字（7）— 対立の組</h3>
+  <p>硬音・軟音の両方を持つ：ベト・ギーメル・ダーレト・カフ・ペー・レーシュ・タヴ。<br>
+  例：知識↔愚かさ、生命↔死、平和↔戦争、富↔貧。七方向・七曜・七惑星・顔の七つの穴。</p>
+
+  <h3>単純文字（12）— 感覚・性質</h3>
+  <p>視覚・聴覚・嗅覚・言語・味覚・性的欲望・仕事・運動・怒り… 黄道12宮・12ヶ月・12臓器。12文字の和＝445（5×89）。</p>
+
+  <h3>四文字神名（テトラグラマトン）</h3>
+  <div class="formula hebrew">יהוה</div>
+  <p>YHWH（ヤハウェ／エホバ）。発音禁忌 → 代わりに <strong>Adonai</strong>（主）、<strong>AHIH</strong>（我は在る）、<strong>AGLA</strong>（ノタリコン）を使用。</p>
+</section>
+
+<!-- p179 -->
+<section class="page-section" id="p179">
+  <span class="page-tag">p.179</span>
+  <h2>「光あれ」のゲマトリア</h2>
+  <table>
+    <thead><tr><th>語</th><th>分解</th><th>和</th><th>意味</th></tr></thead>
+    <tbody>
+      <tr><td>Viamr</td><td>6+10+1+40+200</td><td>257</td><td>実在する宇宙</td></tr>
+      <tr><td>Elohim</td><td>1+30+5+10+40</td><td>86</td><td>神（統一的創造原理）</td></tr>
+      <tr><td>Yehi（יהי）</td><td>10+5+10</td><td>25</td><td>「あれ」（光よ）</td></tr>
+      <tr><td>Or（אור）</td><td>1+6+200</td><td>207</td><td>光</td></tr>
+      <tr><td>Vayehi</td><td>6+10+5+10</td><td>31</td><td>「あった」</td></tr>
+    </tbody>
+  </table>
+  <p>25＋207＝232。光は「非存在」から「存在」へ——ヨッド（神の手）が創造の核心。</p>
+</section>
+
+<!-- p180-181 -->
+<section class="page-section" id="p180">
+  <span class="page-tag">p.180 – p.181</span>
+  <h2>アダム・カドモン（図34）</h2>
+  <p class="lead">原始人間＝神の肉体。すべての人間の原型。宇宙創造の光がここから流れる。</p>
+  <h3>三段階の「無」</h3>
+  <ul>
+    <li><strong>Ain（アイン）</strong>＝無</li>
+    <li><strong>Ain Soph（アイン・ソフ）</strong>＝無限</li>
+    <li><strong>Ain Soph Aur（アイン・ソフ・オール）</strong>＝無限の光（ビッグバンに例えられる）</li>
+  </ul>
+  <p>図34：人体にセフィロトを配置——知性（頭）、愛、正義、美（心）、勝利、光輝、基礎、王国（足）。<br>
+  テトラグラマトン：Yod＝頭、He＝腕、Vau＝胴、He＝脚。モーセはシナイで神の「背中」しか見られなかった——完全な光は人間には耐えられない。</p>
+  <details>
+    <summary>解説：アダム・カドモンと「人間のイメージ」</summary>
+    <div class="detail-body">
+      <p>創世記「神のかたちに創られた」＝文字通りの肉体ではなく、<strong>宇宙の構造が人間型</strong>であるという神秘論。現代で言えば「マクロコスモス（大宇宙）とミクロコスモス（小宇宙＝人間）が同型」という思想。</p>
+    </div>
+  </details>
+</section>
+
+<!-- p182-183 -->
+<section class="page-section" id="p182">
+  <span class="page-tag">p.182 – p.183</span>
+  <h2>四界とシェキナー</h2>
+  <table>
+    <thead><tr><th>界</th><th>ヘブライ</th><th>元素</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td>アツィルート</td><td>Atziluth</td><td>火</td><td>流出界・純粋精神</td></tr>
+      <tr><td>ブリアー</td><td>Briah</td><td>風</td><td>創造界・大天使</td></tr>
+      <tr><td>イェツィラー</td><td>Yetzirah</td><td>水</td><td>形成界・天使</td></tr>
+      <tr><td>アッシアー</td><td>Assiah</td><td>土</td><td>活動界・物質・クリフォト（殻）</td></tr>
+    </tbody>
+  </table>
+  <p><strong>シェキナー（Shekhinah）</strong>＝神の女性的側面・内なる臨在。男性原理の神とシェキナーの結合＝魂の調和。マルクト＝王国＝花嫁。</p>
+  <p>10セフィロト＋22経路＝32の知恵の道。セフィラ＝サファイア（蓝宝石）の輝き。</p>
+</section>
+
+<!-- p184-185 -->
+<section class="page-section" id="p184">
+  <span class="page-tag">p.184 – p.185</span>
+  <h2>生命の樹（図35・36）</h2>
+  <div class="tree-diagram">
+    <div class="empty"></div><div class="node">1 ケテル</div><div class="empty"></div>
+    <div class="node">3 ビナー</div><div class="empty"></div><div class="node">2 コクマー</div>
+    <div class="node">5 ゲブラー</div><div class="node">6 ティファレト</div><div class="node">4 チェセド</div>
+    <div class="node">8 ホド</div><div class="node">9 イェソード</div><div class="node">7 ネツァハ</div>
+    <div class="empty"></div><div class="node center">10 マルクト</div><div class="empty"></div>
+  </div>
+  <p style="text-align:center;font-size:12px;color:var(--muted)">図35 簡略版 — 左柱＝峻厳、右柱＝慈悲、中央＝平衡</p>
+  <p><strong>図36 稲妻の閃光：</strong>1→2→3→4→5→6→7→8→9→10 のジグザグ——創造の力の降下経路。</p>
+  <p>ケテル＝王冠。アイン・ソフ・オールの最も近い鏡。16世紀パウルス・リキウス『光の門』注釈。</p>
+</section>
+
+<!-- p186-195 Sephiroth -->
+<section class="page-section" id="p186">
+  <span class="page-tag">p.186 – p.195</span>
+  <h2>十セフィロト（生命の樹の球）</h2>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>#</th><th>名</th><th>意味</th><th>神名例</th><th>大天使</th><th>惑星</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>ケテル</td><td>王冠</td><td>Eheieh（我は在る）</td><td>メタトロン</td><td>—</td></tr>
+      <tr><td>2</td><td>コクマー</td><td>知恵</td><td>Yah（26）</td><td>ラツィエル</td><td>黄道</td></tr>
+      <tr><td>3</td><td>ビナー</td><td>理解</td><td>Elohim（86）</td><td>ツァフキエル</td><td>土星</td></tr>
+      <tr><td>4</td><td>チェセド</td><td>慈悲・愛</td><td>El（31）</td><td>ツァドキエル</td><td>木星</td></tr>
+      <tr><td>5</td><td>ゲブラー</td><td>裁判・力</td><td>Elohim Gibor（297）</td><td>カマエル</td><td>火星</td></tr>
+      <tr><td>6</td><td>ティファレト</td><td>美</td><td>Eloah va-Daath</td><td>ラファエル</td><td>太陽</td></tr>
+      <tr><td>7</td><td>ネツァハ</td><td>勝利</td><td>Jehovah Sabaoth（525）</td><td>ハニエル</td><td>金星</td></tr>
+      <tr><td>8</td><td>ホド</td><td>栄光</td><td>Elohim Sabaoth（585）</td><td>ミカエル</td><td>水星</td></tr>
+      <tr><td>9</td><td>イェソード</td><td>基礎</td><td>Shaddai（314）</td><td>ガブリエル</td><td>月</td></tr>
+      <tr><td>10</td><td>マルクト</td><td>王国</td><td>Adonai（65）</td><td>サンダルフォン</td><td>地球</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <details>
+    <summary>解説：セフィロトとは？クリフォトとは？</summary>
+    <div class="detail-body">
+      <p><strong>セフィロト</strong>（Sefirot）＝神の属性が段階的に現れる10の窓。木の「実」や「球」。<br>
+      <strong>クリフォト</strong>（Qlippoth）＝各セフィラに対応する「影・殻・悪魔側」の伝承（文学・象徴として扱う）。<br>
+      31は第3メルセンヌ素数（2⁵−1）。6は完全数（1+2+3=6）。297はカプレカー数的性質（第4章参照）。</p>
+    </div>
+  </details>
+
+  <h3>各セフィラの補足</h3>
+  <ul>
+    <li><strong>ビナー：</strong>大母アイマ。Elohimは女性名＋男性複数語尾——男女両原理。</li>
+    <li><strong>チェセド：</strong>31＝1+5+5²。コリントの前書13「信仰・希望・愛」の愛（caritas）。</li>
+    <li><strong>ティファレト：</strong>完全数6。太陽・キリスト像の交差点。</li>
+    <li><strong>イェソード：</strong>314＝πに近い。性・創造の基盤。リリス（Lilith）が対立側。</li>
+    <li><strong>マルクト：</strong>Shekinah。Adonai Ha-Aretz＝361。10＝ピタゴラス的完全宇宙。</li>
+  </ul>
+</section>
+
+<!-- p196-198 -->
+<section class="page-section" id="p196">
+  <span class="page-tag">p.196 – p.198</span>
+  <h2>表4 — 22経路とタロット</h2>
+  <p>生命の樹の22本の線＝22ヘブライ文字＝タロット大アルカナ22枚（黄金の夜明け系）。</p>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>パス</th><th>接続</th><th>文字</th><th>タロット</th></tr></thead>
+    <tbody>
+      <tr><td>11</td><td>1–2</td><td>א Aleph</td><td>0 愚者</td></tr>
+      <tr><td>12</td><td>1–3</td><td>ב Beth</td><td>I 魔術師</td></tr>
+      <tr><td>13</td><td>1–6</td><td>ג Gimel</td><td>II 女教皇</td></tr>
+      <tr><td>14</td><td>2–3</td><td>ד Daleth</td><td>III 女帝</td></tr>
+      <tr><td>15</td><td>2–6</td><td>ה He</td><td>IV 皇帝</td></tr>
+      <tr><td>16</td><td>2–4</td><td>ו Vau</td><td>V 教皇</td></tr>
+      <tr><td>17</td><td>3–6</td><td>ז Zayin</td><td>VI 恋人</td></tr>
+      <tr><td>18</td><td>3–5</td><td>ח Cheth</td><td>VII 戦車</td></tr>
+      <tr><td>19</td><td>4–5</td><td>ט Teth</td><td>VIII 力</td></tr>
+      <tr><td>20</td><td>4–6</td><td>י Yod</td><td>IX 隠者</td></tr>
+      <tr><td>21</td><td>4–7</td><td>כ Kaph</td><td>X 運命の輪</td></tr>
+      <tr><td>22</td><td>5–6</td><td>ל Lamed</td><td>XI 正義</td></tr>
+      <tr><td>23</td><td>5–8</td><td>מ Mem</td><td>XII 吊るされた男</td></tr>
+      <tr><td>24</td><td>6–7</td><td>נ Nun</td><td>XIII 死</td></tr>
+      <tr><td>25</td><td>6–9</td><td>ס Samekh</td><td>XIV 節制</td></tr>
+      <tr><td>26</td><td>6–8</td><td>ע Ayin</td><td>XV 悪魔</td></tr>
+      <tr><td>27</td><td>7–8</td><td>פ Pe</td><td>XVI 塔</td></tr>
+      <tr><td>28</td><td>7–9</td><td>צ Tzaddi</td><td>XVII 星</td></tr>
+      <tr><td>29</td><td>7–10</td><td>ק Qoph</td><td>XVIII 月</td></tr>
+      <tr><td>30</td><td>8–9</td><td>ר Resh</td><td>XIX 太陽</td></tr>
+      <tr><td>31</td><td>8–10</td><td>ש Shin</td><td>XX 審判</td></tr>
+      <tr><td>32</td><td>9–10</td><td>ת Tav</td><td>XXI 世界</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>数17の読み（p.197）</h3>
+  <ul>
+    <li>Yod+Aleph+Vau（10+1+6）＝17：「神の手が統一創造の原動力」</li>
+    <li>Yod+Gimel+Daleth（10+3+4）＝17：「神の手が自然の権威」</li>
+    <li>Teth+Cheth（9+8）＝17：「聖なるエネルギーの流れ」</li>
+  </ul>
+  <p>1+2+…+10＝55。量子論の「量子跳躍」とカバラの「発露」の比較（マックス・プランク）。</p>
+
+  <div class="closing">
+    <h2>第5章の結び（p.198）</h2>
+    <p>生命の女神——扉の開閉は彼女の権能。啓蒙・直観・理解。創造の水を孕む心。神聖な火がすべての世代を照らす——数・文字・象徴は「心の読解の地図」となりうる。</p>
+    <p style="margin-top:12px;font-size:13px;color:var(--muted)">次章以降：第6章（666 等）・第8章（対数）へ。参考文献は原書末尾の書誌を参照。</p>
+  </div>
+</section>
+
+<footer>
+  出典：ジョン・キング『数秘術』第5章 pp.162–198 ／ スクール研修用<br>
+  図表：図34 アダム・カドモン、図35 生命の樹、図36 力の降下、表3・表4
+</footer>
+
+</div>
+</div>
+</body>
+</html>

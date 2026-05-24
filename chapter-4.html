@@ -1,0 +1,805 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第4章 珍しい数と数の型 — 学習ノート</title>
+</head>
+<body><!--
+  数秘術 第4章 学習ノート
+  共有方法：このファイルをブラウザにドラッグ＆ドロップするか、
+  拡張子を .html に変更して開くと、デザイン・折りたたみがそのまま表示されます。
+  （Cursor / VS Code のプレビューでも HTML は表示されます）
+-->
+
+<style>
+  :root {
+    --green: #1F4D3A;
+    --green-2: #0F3D2F;
+    --gold: #C6A85C;
+    --beige: #F5F3E7;
+    --yellow: #D6E300;
+    --navy: #243A5E;
+    --ink: #17352D;
+    --text: #21342F;
+    --muted: #6B7A75;
+    --line: #E4E2D8;
+    --white: #FFFFFF;
+    --radius: 6px;
+    --max: 820px;
+  }
+
+  .study-note {
+    font-family: "Inter", "Zen Kaku Gothic New", system-ui, sans-serif;
+    color: var(--text);
+    background: linear-gradient(90deg, #fff 0%, #fff 55%, #fbfaf4 100%);
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+    padding: 48px 24px 96px;
+  }
+
+  .study-note .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .study-note .hero {
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 48px;
+  }
+
+  .study-note .hero-label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+    margin: 0 0 12px;
+  }
+
+  .study-note h1 {
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 900;
+    color: var(--green);
+    margin: 0 0 16px;
+    line-height: 1.35;
+  }
+
+  .study-note .hero-meta {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .study-note .hero-meta strong { color: var(--ink); }
+
+  .study-note .toc {
+    background: var(--beige);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 48px;
+  }
+
+  .study-note .toc h2 {
+    font-size: 14px;
+    color: var(--green);
+    margin: 0 0 12px;
+    letter-spacing: 0.08em;
+  }
+
+  .study-note .toc ol {
+    margin: 0;
+    padding-left: 1.4em;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3a4a45;
+  }
+
+  .study-note .toc a { color: var(--green); text-decoration: none; }
+  .study-note .toc a:hover { text-decoration: underline; }
+
+  .study-note .page-section {
+    margin-bottom: 64px;
+    padding-bottom: 64px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .study-note .page-section:last-of-type { border-bottom: none; }
+
+  .study-note .page-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: var(--white);
+    background: var(--green);
+    padding: 4px 10px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+
+  .study-note h2 {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 900;
+    color: var(--green);
+    margin: 0 0 20px;
+    line-height: 1.45;
+  }
+
+  .study-note h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy);
+    margin: 32px 0 12px;
+  }
+
+  .study-note p {
+    margin: 0 0 1em;
+    font-size: 15px;
+    font-weight: 600;
+    color: #3a4a45;
+  }
+
+  .study-note .lead {
+    padding: 16px 20px;
+    background: var(--beige);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin-bottom: 24px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .study-note .handwritten {
+    padding: 14px 18px;
+    background: #eef4fb;
+    border-left: 4px solid #5b8fc7;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 16px 0 24px;
+    font-size: 14px;
+    color: #2a4a6a;
+    font-weight: 600;
+  }
+
+  .study-note .handwritten strong {
+    color: #1a3a5c;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  .study-note table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .study-note th {
+    background: var(--green);
+    color: var(--white);
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 800;
+  }
+
+  .study-note td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    background: var(--white);
+  }
+
+  .study-note tr:nth-child(even) td { background: #faf9f4; }
+
+  .study-note .magic-grid {
+    display: inline-grid;
+    gap: 2px;
+    background: var(--line);
+    border: 2px solid var(--green);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0 20px;
+  }
+
+  .study-note .magic-grid span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--white);
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .study-note .magic-grid.size-4 span { width: 40px; height: 40px; font-size: 13px; }
+  .study-note .magic-grid.size-7 span { width: 34px; height: 34px; font-size: 11px; }
+  .study-note .magic-grid.size-8 span { width: 32px; height: 32px; font-size: 10px; }
+
+  .study-note .formula {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--beige);
+    border-radius: var(--radius);
+    font-family: "Cambria Math", "Times New Roman", serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 8px 0 16px;
+  }
+
+  .study-note details {
+    margin: 12px 0 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+    overflow: hidden;
+  }
+
+  .study-note details[open] { border-color: rgba(31, 77, 58, 0.25); }
+
+  .study-note summary {
+    cursor: pointer;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--green);
+    background: #faf9f4;
+    list-style: none;
+    user-select: none;
+  }
+
+  .study-note summary::-webkit-details-marker { display: none; }
+
+  .study-note summary::before {
+    content: "＋ ";
+    color: var(--gold);
+    font-weight: 900;
+  }
+
+  .study-note details[open] summary::before { content: "－ "; }
+
+  .study-note .detail-body {
+    padding: 16px 18px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a5a55;
+    border-top: 1px solid var(--line);
+  }
+
+  .study-note .detail-body ul {
+    margin: 0;
+    padding-left: 1.2em;
+  }
+
+  .study-note .detail-body li { margin-bottom: 0.5em; }
+
+  .study-note .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 20px;
+  }
+
+  .study-note .tag {
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 3px;
+    background: var(--beige);
+    color: var(--green);
+    border: 1px solid var(--line);
+  }
+
+  .study-note .closing {
+    padding: 28px 32px;
+    background: linear-gradient(135deg, var(--beige) 0%, #fbfaf4 100%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-top: 48px;
+  }
+
+  .study-note .closing h2 { margin-bottom: 12px; }
+
+  .study-note footer {
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+    text-align: center;
+  }
+</style>
+
+<div class="study-note">
+<div class="wrap">
+
+<header class="hero">
+  <p class="hero-label">SCHOOL STUDY NOTE</p>
+  <h1>第4章「珍しい数と数の型」<br>学習ノート</h1>
+  <p class="hero-meta">
+    出典：<strong>『数秘術』ジョン・キング著</strong>　／　pp.146–159（本章完結）<br>
+    用途：スクール内・研修用　／　<span style="color:var(--gold)">▶ 青字の見出しをクリックすると注釈が開きます</span><br>
+    <a href="/" style="color:var(--green)">← 目次に戻る</a>
+  </p>
+</header>
+
+<nav class="toc">
+  <h2>目次（ページ順）</h2>
+  <ol>
+    <li><a href="#p146">p.146</a> — カプレカー数・魔方陣のはじまり・土星の正方形</li>
+    <li><a href="#p147">p.147</a> — 木星の正方形・デューラー『メランコリア I』・火星</li>
+    <li><a href="#p148">p.148</a> — 太陽・金星・水星・月の正方形</li>
+    <li><a href="#p150">p.150</a> — 金星の図・錬金術と金属の対応（前半）</li>
+    <li><a href="#p151">p.151</a> — 水星の図・錬金術（後半）・円周率 π へ</li>
+    <li><a href="#p152">p.152</a> — 円周率 π の歴史と性質</li>
+    <li><a href="#p154">p.154</a> — 超越数・円方問題・オイラーの公式</li>
+    <li><a href="#p155">p.155</a> — 虚数 i・複素数・オイラー数 e</li>
+    <li><a href="#p156">p.156</a> — 対数・指数関数・e<sup>πi</sup> = −1</li>
+    <li><a href="#p157">p.157</a> — 24・階乗・46・153・216</li>
+    <li><a href="#p158">p.158</a> — プラトン的数・巡回数 142,857</li>
+    <li><a href="#p159">p.159</a> — 巨大な数・確率・無限大・カバラへ</li>
+  </ol>
+</nav>
+
+<!-- ========== p.146 ========== -->
+<section class="page-section" id="p146">
+  <span class="page-tag">p.146</span>
+  <h2>カプレカー数と魔方陣のはじまり</h2>
+
+  <h3>カプレカー数（Kaprekar Number）</h3>
+  <p class="lead">ある数を左右に分けて足すと、もとの数に戻る——という「自己参照的」な性質を持つ数。</p>
+  <p><strong>例：</strong> 2,223 → 494 + 1,729 = 2,223</p>
+  <p><strong>数列：</strong> 1, 9, 45, 55, 99, 297, 703, 999, 2,223, 2,728, 7,272, 7,777 …</p>
+  <p>隣接する対を足すと 10 の累乗になる：45+55=100、297+703=1,000、2,728+7,272=10,000 …</p>
+
+  <details>
+    <summary>注釈：カプレカー数とは？（1940年代の発見）</summary>
+    <div class="detail-body">
+      <ul>
+        <li>インドの数学者 <strong>D.R. カプレカー</strong>（1905–1988）が研究した数。高校数学では出てこないが、「数字の並べ方の面白さ」を示す代表例。</li>
+        <li>数秘術的解釈（本書）：<strong>行き詰まり・閉じた環・無益な過程</strong>を示唆。ただし現代に発見されたため、古典的数秘術には登場しない。</li>
+        <li>45 はカプレカー数でもあり、後述の土星魔方陣の「全体の和」でもある——本書はこうした数の「重なり」を大切にしている。</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>魔方陣（Magic Square）</h3>
+  <p>各行・各列・各対角線の和がすべて等しい数字の格子。最も古い「数の型」のひとつ。</p>
+  <p>古代中国の <strong>洛書（らくしょ）</strong> が 3×3 の魔方陣として知られ、中世の数秘術者は <strong>7つの惑星魔方陣</strong> をそれぞれ特別な性質と結びつけて扱った。</p>
+
+  <details>
+    <summary>注釈：なぜ「惑星」と結びつくのか？</summary>
+    <div class="detail-body">
+      <ul>
+        <li>古代〜中世のヨーロッパでは、月・水星・金星・太陽・火星・木星・土星の <strong>7天体</strong> が宇宙の秩序を司ると考えられた（地球は中心、天王星以降は未発見）。</li>
+        <li>数字・幾何・天体・金属・色を対応づけるのは、当時の「万物はつながっている」という世界観（コレスポンデンス）の表れ。</li>
+        <li>数秘術の文脈では「計算の道具」以上に、<strong>象徴・護符・瞑想の図形</strong> として使われた。</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>図26 — 土星の正方形（3×3）</h3>
+  <div class="magic-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <span>4</span><span>9</span><span>2</span>
+    <span>3</span><span>5</span><span>7</span>
+    <span>8</span><span>1</span><span>6</span>
+  </div>
+  <div class="tag-row">
+    <span class="tag">魔方定数 15</span>
+    <span class="tag">全体の和 45</span>
+    <span class="tag">色：黒地に白字</span>
+  </div>
+
+  <p>1〜9 の数字をすべて含む（ゼロは古代ギリシャでは「数」として扱われなかった）。<br>
+  15 と 45 は <strong>三角形数</strong>（1, 3, 6, 10, 15… の列）。45 はカプレカー数でもある。<br>
+  惑星：<strong>土星（サトゥルヌス／クロノス）</strong> — 時間・制限・最初の神。</p>
+
+  <div class="handwritten">
+    <strong>📘 原書メモ（手書き）</strong><br>
+    土星 ＝ 制限、死 …。ヒポクラテスの四体液説：黒胆汁（ギリシャ語 <em>melas khole</em>）の過剰 → 憂鬱（メランコリア）。
+  </div>
+
+  <details>
+    <summary>注釈：三角形数・四体液説・土星のイメージ</summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>三角形数：</strong> 点を三角に並べたときの個数。1+2+3+4+5 = 15、1+2+…+9 = 45。</li>
+        <li><strong>四体液説（紀元前5世紀〜）：</strong> 血液・粘液・黄胆汁・黒胆汁のバランスで体と心の状態を説明。黒胆汁が多いと「メランコリア（憂鬱）」——土星・鉛・冬・老年などと後から結びつけられた。</li>
+        <li>デューラーの『メランコリア I』（次ページ）も、この「土星の重さ」を視覚化した作品として読める。</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- ========== p.147 ========== -->
+<section class="page-section" id="p147">
+  <span class="page-tag">p.147</span>
+  <h2>木星の正方形とデューラーの「メランコリア I」</h2>
+
+  <h3>図27 — 木星の正方形（4×4）</h3>
+  <div class="magic-grid size-4" style="grid-template-columns: repeat(4, 1fr);">
+    <span>4</span><span>14</span><span>15</span><span>1</span>
+    <span>9</span><span>7</span><span>6</span><span>12</span>
+    <span>5</span><span>11</span><span>10</span><span>8</span>
+    <span>16</span><span>2</span><span>3</span><span>13</span>
+  </div>
+  <div class="tag-row">
+    <span class="tag">魔方定数 34</span>
+    <span class="tag">全体の和 136</span>
+  </div>
+
+  <p>34 = 「最初の女性数 2」+「男性素数 31」（ピタゴラス派の男女数の考え方）。<br>
+  136 と 244 は互いの「桁の立方和」：1³+3³+6³=244、2³+4³+4³=136。<br>
+  数 <strong>4</strong> は「現実・世俗・安定」の基礎数。</p>
+
+  <p><strong>デューラー『メランコリア I』（1514年）</strong> の右上に、木星魔方陣の変種が描かれている。世俗的事柄への重い影響を示す。</p>
+
+  <div class="handwritten">
+    <strong>📘 原書メモ（手書き）</strong><br>
+    デューラーの絵は土星の憂鬱を表す。右上に木星の魔方陣を置くことで、和らげ・守る働きがある（おそらく木星の正方形）。<br>
+    「完全には理解できない… 知性は自らの限界を知った…」
+  </div>
+
+  <details>
+    <summary>注釈：デューラーと1514年の時代背景</summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>アルブレヒト・デューラー</strong>（1471–1528）：ルネサンス期ドイツの画家・版画家。数学・透視法にも詳しい。</li>
+        <li>『メランコリア I』は、考え込む天使、魔法の平方、多面体、コンパスなどが並ぶ謎多き版画。500年以上解釈が続いている。</li>
+        <li>本書の読み方：土星＝制限・悲しみ、木星＝拡大・救済。護符のように魔方陣を配置した——数秘術・錬金術的な「意味の読み」。</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>図28 — 火星の正方形（5×5）※図のみ参照</h3>
+  <div class="tag-row">
+    <span class="tag">中心 13</span>
+    <span class="tag">魔方定数 65</span>
+    <span class="tag">全体の和 325</span>
+    <span class="tag">色：赤地に緑字</span>
+  </div>
+  <p>65 = 8²+1² = 7²+4²（二つの平方和として2通り）。65 = 5×13。<br>
+  325 は二つの平方和として <strong>3通り</strong> で表せる最小の数：1²+18²、6²+17²、10²+15²。</p>
+</section>
+
+<!-- ========== p.148 ========== -->
+<section class="page-section" id="p148">
+  <span class="page-tag">p.148</span>
+  <h2>太陽・金星・水星・月の正方形</h2>
+
+  <h3>図29 — 太陽の正方形（6×6）</h3>
+  <div class="tag-row">
+    <span class="tag">36マス</span>
+    <span class="tag">魔方定数 111</span>
+    <span class="tag">全体の和 666</span>
+    <span class="tag">色：黄地に紫字</span>
+  </div>
+  <p>111 は <strong>レプユニット</strong>（111, 1111…）。最初の11個の素数から作る最小魔方陣の定数（p.89参照）。<br>
+  666 は黙示録の「獣の数」——第6章で詳述。</p>
+
+  <details>
+    <summary>注釈：666 について（本章では触れるのみ）</summary>
+    <div class="detail-body">
+      <p>太陽魔方陣の数字の総和が 666 になることから、キリスト教の象徴（太陽＝光）と黙示録の象徴（獣の数）が同じ「数の型」に載る——本書はこうした<strong>二重の意味</strong>に注目している。詳細は原書第6章で学ぶ。</p>
+    </div>
+  </details>
+
+  <h3>図30 — 金星の正方形（7×7）</h3>
+  <div class="magic-grid size-7" style="grid-template-columns: repeat(7, 1fr);">
+    <span>22</span><span>47</span><span>16</span><span>41</span><span>10</span><span>35</span><span>4</span>
+    <span>5</span><span>23</span><span>48</span><span>17</span><span>42</span><span>11</span><span>29</span>
+    <span>30</span><span>6</span><span>24</span><span>49</span><span>18</span><span>36</span><span>12</span>
+    <span>13</span><span>31</span><span>7</span><span>25</span><span>43</span><span>19</span><span>37</span>
+    <span>38</span><span>14</span><span>32</span><span>1</span><span>26</span><span>44</span><span>20</span>
+    <span>21</span><span>39</span><span>8</span><span>33</span><span>2</span><span>27</span><span>45</span>
+    <span>46</span><span>15</span><span>40</span><span>9</span><span>34</span><span>3</span><span>28</span>
+  </div>
+  <div class="tag-row">
+    <span class="tag">魔方定数 175</span>
+    <span class="tag">全体の和 1,225 = 35²</span>
+    <span class="tag">癒しと関連</span>
+    <span class="tag">色：暗緑地にレモン色</span>
+  </div>
+  <p>175 = 1²+7²+5²。1,225 は <strong>平方数かつ三角形数</strong>（両方を満たす数は稀）。中心は 25。</p>
+
+  <h3>図31 — 水星の正方形（8×8）</h3>
+  <div class="magic-grid size-8" style="grid-template-columns: repeat(8, 1fr);">
+    <span>8</span><span>58</span><span>59</span><span>5</span><span>4</span><span>62</span><span>63</span><span>1</span>
+    <span>49</span><span>15</span><span>14</span><span>52</span><span>53</span><span>11</span><span>10</span><span>56</span>
+    <span>41</span><span>23</span><span>22</span><span>44</span><span>45</span><span>19</span><span>18</span><span>48</span>
+    <span>32</span><span>34</span><span>35</span><span>29</span><span>28</span><span>38</span><span>39</span><span>25</span>
+    <span>40</span><span>26</span><span>27</span><span>37</span><span>36</span><span>30</span><span>31</span><span>33</span>
+    <span>17</span><span>47</span><span>46</span><span>20</span><span>21</span><span>43</span><span>42</span><span>24</span>
+    <span>9</span><span>55</span><span>54</span><span>12</span><span>13</span><span>51</span><span>50</span><span>16</span>
+    <span>64</span><span>2</span><span>3</span><span>61</span><span>60</span><span>6</span><span>7</span><span>57</span>
+  </div>
+  <div class="tag-row">
+    <span class="tag">魔方定数 260</span>
+    <span class="tag">全体の和 2,080</span>
+    <span class="tag">最も「一般性が少ない」</span>
+    <span class="tag">色：黄褐地に薄青字</span>
+  </div>
+
+  <h3>図32 — 月の正方形（9×9）</h3>
+  <p>9×9 の格子。本文は色の説明の途中で次ページへ続く（太陽の色との対比が示唆される）。</p>
+</section>
+
+<!-- ========== p.150 ========== -->
+<section class="page-section" id="p150">
+  <span class="page-tag">p.150</span>
+  <h2>金星の正方形と錬金術（前半）</h2>
+
+  <p>金星の正方形の色は、太陽の正方形の <strong>反対</strong> — 紫の背景にレモン色の数字（別の伝統では暗緑地にレモン色）。</p>
+  <p>中心の 25 と、<strong>ウラムの大模様</strong>（p.137）における素数の対角線パターンが言及される。</p>
+
+  <h3>中世錬金術と魔方陣</h3>
+  <p class="lead">錬金術の本当の目的は「鉛を金に」だけではなく、<strong>現世的なものを精神的なものへ変換する</strong>こと。</p>
+
+  <table>
+    <thead>
+      <tr><th>惑星</th><th>金属</th><th>象徴（要約）</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>土星</td><td>鉛</td><td>魂の光を隠す肉体。放射線防御にも（現代科学的注）</td></tr>
+      <tr><td>木星</td><td>錫</td><td>束縛から離れる魂。加熱すると銀白色に流れる</td></tr>
+      <tr><td>火星</td><td>鉄</td><td>精神より肉体が優る</td></tr>
+      <tr><td>太陽</td><td>金</td><td>宇宙の中心にある精神的真理</td></tr>
+      <tr><td>金星</td><td>銅</td><td>鏡の金属。鉄の対極＝精神の優位</td></tr>
+      <tr><td>水星</td><td>水銀</td><td>精神と肉体の完全な平衡</td></tr>
+      <tr><td>月</td><td>銀</td><td>精神を映す魂</td></tr>
+    </tbody>
+  </table>
+
+  <details>
+    <summary>注釈：錬金術を「金属づくり」と誤解しやすい理由</summary>
+    <div class="detail-body">
+      <ul>
+        <li>16〜17世紀には実験化学の萌芽でもあったが、象徴的・精神的な「変容」のメタファーが強い。</li>
+        <li>惑星＝金属＝人体の部位＝色、という対応表は、当時の「宇宙と人間は同型（ミクロコスモス）」思想。</li>
+        <li>数秘術スクールでは「文字通り金を作る話」ではなく、<strong>内面の変化・意識の錬成</strong>として読むのが本書の意図に近い。</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- ========== p.151 ========== -->
+<section class="page-section" id="p151">
+  <span class="page-tag">p.151</span>
+  <h2>水星の正方形と π への橋渡し</h2>
+
+  <p>図31（水星の8×8）のあと、錬金術と金属の対応が続き、魔方陣より古いテーマとして <strong>円周率 π</strong> へ話題が移る。</p>
+  <p>π はバビロニア・エgypt・ギリシャに（その名前ではないが）知られていた。リンド・パピルスのアーメス（アムス）の記述へ続く（p.152）。</p>
+</section>
+
+<!-- ========== p.152 ========== -->
+<section class="page-section" id="p152">
+  <span class="page-tag">p.152</span>
+  <h2>円周率 π（パイ）</h2>
+
+  <h3>歴史上の近似値</h3>
+  <table>
+    <thead>
+      <tr><th>出典</th><th>内容</th><th>近似値</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>リンド・パピルス（アーメス）</td><td>直径の 8/9 の平方 ≒ 円の面積</td><td>π ≈ (16/9)² ≈ 3.16049…</td></tr>
+      <tr><td>列王記上 7:23</td><td>直径10キュビット、周囲30キュビット</td><td>π ≈ 3</td></tr>
+    </tbody>
+  </table>
+
+  <h3>性質</h3>
+  <p>現在約1,600万桁まで計算。終わりや周期の兆候なし。<br>
+  <strong>ファインマン・ポイント：</strong> 小数第762〜769位に「9」が6つ連続。</p>
+  <div class="formula">円周 = 2πr　　面積 = πr²</div>
+
+  <p><strong>覚え歌（英語）：</strong> "How I wish I could calculate pi..." → 各単語の文字数で 3.141592…</p>
+
+  <details>
+    <summary>注釈：π は「数秘術の主役」か？</summary>
+    <div class="detail-body">
+      <p>伝統的数秘術では π ほど重要ではないが、<strong>現代の総合的数秘術</strong>には π・e・i を含めるべき、と本書は述べる。自然界の「円」の比率として、宇宙の秩序を表す数のひとつ。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ========== p.154 ========== -->
+<section class="page-section" id="p154">
+  <span class="page-tag">p.154</span>
+  <h2>超越数・円方問題・オイラーの公式</h2>
+
+  <p>π は <strong>実数</strong>だが <strong>超越数</strong> — 整数係数の方程式の解として書けない。</p>
+  <p>近似：22/7（よく使う）、355/113（より精密）。</p>
+
+  <h3>円方問題（Squaring the Circle）</h3>
+  <p>与えられた円と同じ面積の正方形をコンパスと定規だけで作れるか？ — ギリシャ時代からの難問。</p>
+  <p>ヒポクラテス（<strong>数学者</strong>。医師のヒポクラテスとは別人）が「月形（ルーン）」の正方形化に成功し、円も可能ではと期待が高まった。しかし <strong>1882年に不可能と証明</strong>された（π が超越数だから）。</p>
+
+  <div class="formula">e<sup>iπ</sup> = −1</div>
+  <p>π・虚数 i・自然対数の底 e の関係を、オイラーの公式が一行で表す。</p>
+
+  <details>
+    <summary>注釈：「超越数」とは？</summary>
+    <div class="detail-body">
+      <ul>
+        <li><strong>有理数：</strong> 分数で書ける（例 1/2）。</li>
+        <li><strong>無理数：</strong> 分数では書けない（例 √2, π）。</li>
+        <li><strong>超越数：</strong> さらに厳しい — x²+1=0 のような「整式の解」にもならない。π と e が代表例。</li>
+        <li>高校数学：「円方問題は不可能」という結論だけ覚えてもOK。理由は大学数学で。</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- ========== p.155 ========== -->
+<section class="page-section" id="p155">
+  <span class="page-tag">p.155</span>
+  <h2>虚数 i・複素数・オイラー数 e</h2>
+
+  <h3>虚数 i = √−1</h3>
+  <p>自乗すると −1 になる数。「実在しない」ように思えるが、方程式では普通に計算できる。</p>
+  <p><strong>複素数：</strong> 実数 + 虚数（例 2+3i）。<br>
+  例：(2+3i) − (4+5i) = −2−2i</p>
+  <p>掛け算・割り算には <strong>共役複素数</strong>（虚数部分の符号を反転）が使われる。</p>
+
+  <h3>オイラー数 e ≈ 2.71828…</h3>
+  <p>レオナルド・オイラー（1707–1783）が i と e に記号を与えた。<br>
+  e は無理数かつ超越数。<strong>自然対数 ln</strong> の底。</p>
+
+  <details>
+    <summary>注釈：なぜ「存在しない数」が物理学に必要？</summary>
+    <div class="detail-body">
+      <ul>
+        <li>二次方程式 x²+1=0 の解として √−1 が必要になる。</li>
+        <li>量子力学・電磁気学では、波の位相や振動を複素数で表すのが標準。</li>
+        <li>本書のメッセージ：数秘術も「目に見えない秩序」を扱う — 虚数はその現代的な数学的パラレル。</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- ========== p.156 ========== -->
+<section class="page-section" id="p156">
+  <span class="page-tag">p.156</span>
+  <h2>対数・指数関数・オイラーの公式の意味</h2>
+
+  <h3>対数（log）— 底 10 の例</h3>
+  <p>500 は 10² と 10³ のあいだ → 指数は 2 と 3 の間。</p>
+  <div class="formula">500 = 10<sup>2.698970004…</sup></div>
+  <p>この指数 2.69897… が「500 の常用対数」。10〜100 の対数は 1.○○…、100〜1000 は 2.○○… で始まる。</p>
+
+  <details>
+    <summary>注釈：対数を一言で — 指数の逆操作</summary>
+    <div class="detail-body">
+      <ul>
+        <li>10<sup>2</sup>=100 なら log<sub>10</sub>100 = 2。「何乗すればその数になるか？」を答える。</li>
+        <li>地震のマグニチュード（リクター）、音のデシベル、pH など、実生活でも使われる。</li>
+        <li>本書：第8章で対数の数秘術的应用を詳述。</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>指数関数</h3>
+  <table>
+    <thead>
+      <tr><th>種類</th><th>式</th><th>x=3 のとき</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>べき関数</td><td>f(x) = x²</td><td>9</td></tr>
+      <tr><td>指数関数</td><td>f(x) = 2<sup>x</sup></td><td>8</td></tr>
+      <tr><td>自然指数</td><td>f(x) = e<sup>x</sup></td><td>ln の逆関数</td></tr>
+    </tbody>
+  </table>
+  <p>微積分では底 e の指数関数が最も扱いやすい — 微分・積分が自分自身に戻る性質。</p>
+
+  <h3>オイラーの公式の解釈</h3>
+  <div class="formula">e<sup>πi</sup> = −1</div>
+  <p>2.71828… を「π × √−1」まで乗算すると −1 になる — 5つの最重要定数（0, 1, e, i, π）が一行に。</p>
+</section>
+
+<!-- ========== p.157 ========== -->
+<section class="page-section" id="p157">
+  <span class="page-tag">p.157</span>
+  <h2>特別な個別の数</h2>
+
+  <h3>24 と階乗（ factorial ）</h3>
+  <p>24 = 1日の時間数 = 4! = 4×3×2×1。<br>
+  10! = 3,628,800。1,000,000! は 5,565,709 桁（印刷すると約13cm）。</p>
+
+  <details>
+    <summary>注釈：階乗 n! とは？</summary>
+    <div class="detail-body">
+      <p>1から n までをすべて掛け合わせた数。順列・組み合わせの数え方に使う。4! を「四つの悲鳴」と呼ぶのは、階乗が急激に大きくなる様子のユーモア。</p>
+    </div>
+  </details>
+
+  <h3>46 — シェイクスピアと欽定訳聖書</h3>
+  <p>詩篇46篇：最初から46番目の単語 "shake"、最後から46番目 "spear"。<br>
+  欽定訳完成（1610年頃）当時、シェイクスピアは46歳。偶然か意図かは定説なし。</p>
+
+  <h3>153 — ペテロの魚</h3>
+  <p>新約：シモン・ペテロが153匹の魚を釣り上げた。聖アウグスティヌスが特別視。</p>
+
+  <h3>216 — プラトンの数</h3>
+  <div class="formula">3³ + 4³ + 5³ = 216 = 6³</div>
+  <p>3つの立方の和として表せる最小の立方数。</p>
+</section>
+
+<!-- ========== p.158 ========== -->
+<section class="page-section" id="p158">
+  <span class="page-tag">p.158</span>
+  <h2>プラトン的数と巡回数</h2>
+
+  <table>
+    <thead>
+      <tr><th>数</th><th>意味・性質</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>729</strong></td><td>『国家』：王は専制君主より729倍幸せ。729=27²=364+365（1年の日数）</td></tr>
+      <tr><td><strong>5,040</strong></td><td>理想の町の人口。1〜10すべてで割り切れる</td></tr>
+      <tr><td><strong>1,296,000</strong></td><td>216×60,000。プラトン年（歳差周期）と関連づけられる</td></tr>
+    </tbody>
+  </table>
+
+  <h3>142,857 — 巡回数（Cyclic Number）</h3>
+  <p>1〜6 を掛けると、同じ6桁が順番を変えて現れる：</p>
+  <table>
+    <thead>
+      <tr><th>×</th><th>結果</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>142,857</td></tr>
+      <tr><td>2</td><td>285,714</td></tr>
+      <tr><td>3</td><td>428,571</td></tr>
+      <tr><td>4</td><td>571,428</td></tr>
+      <tr><td>5</td><td>714,285</td></tr>
+      <tr><td>6</td><td>857,142</td></tr>
+    </tbody>
+  </table>
+  <p>（7 を掛けると 999,999 になる — 本書の続きで触れられる型）</p>
+
+  <details>
+    <summary>注釈：プラトン年（約25,920年）とは？</summary>
+    <div class="detail-body">
+      <p>地球の自転軸がゆっくり円を描く（歳差）ため、春分点の位置が約25,920年で1周する — 占星術・古代天文学での「大いなる1年」。1,296,000 はその派生数として扱われた。</p>
+    </div>
+  </details>
+</section>
+
+<!-- ========== p.159 ========== -->
+<section class="page-section" id="p159">
+  <span class="page-tag">p.159</span>
+  <h2>巨大な数・確率・無限大</h2>
+
+  <h3>チェス盤と米（2<sup>64</sup> − 1）</h3>
+  <p>1マス目1粒、2マス目2粒…と倍々に増やすと、64マス目までの総数：</p>
+  <div class="formula">18,446,744,073,709,551,615 粒</div>
+  <p>伝説では全世界を約2.5cmの厚さの米で覆える — <strong>指数関数の爆発的増加</strong>のたとえ。</p>
+
+  <h3>ブリッジの確率</h3>
+  <p>4人が1回の配りで各自52枚すべて同じスートを受け取る確率：</p>
+  <div class="formula">1 / 2,235,197,406,895,366,368,301,560,000</div>
+  <p>この数はオイラー数 e と関係がある（本書は詳細を省略）。</p>
+
+  <h3>無限大 ∞</h3>
+  <p>∞+1、∞+∞、∞<sup>∞</sup> … — 通常の算術が破綻する領域。数学は特別な記法（集合論など）で扱う。ここからは哲学に近づく。</p>
+
+  <div class="closing">
+    <h2>本章のまとめ — 次章へ</h2>
+    <p>数の歴史と「型」（魔方陣、π、複素数、特別な整数）を概観した。<br>
+    次章では、数秘術の核心的思想の源である <strong>ヘブライ・カバラ</strong> へ進む。</p>
+  </div>
+</section>
+
+<footer>
+  出典：ジョン・キング『数秘術』第4章 pp.146–159 ／ スクール研修用学習ノート<br>
+  図表参照：図26–33 ／ 相互参照 p.89, p.137, 第6章（666）, 第8章（対数）
+</footer>
+
+</div>
+</div>
+
+</body>
+</html>

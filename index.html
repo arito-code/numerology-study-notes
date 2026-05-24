@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数秘術 学習ノート — 第4章・第5章</title>
+  <style>
+    :root {
+      --green: #1F4D3A;
+      --gold: #C6A85C;
+      --beige: #F5F3E7;
+      --ink: #17352D;
+      --muted: #6B7A75;
+      --line: #E4E2D8;
+      --radius: 6px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "Zen Kaku Gothic New", system-ui, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(105deg, #fff 0%, #fff 58%, #faf8ee 100%);
+      letter-spacing: 0.02em;
+    }
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 72px 24px 96px;
+    }
+    .label {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.28em;
+      color: var(--gold);
+      margin: 0 0 12px;
+    }
+    h1 {
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: 900;
+      color: var(--green);
+      margin: 0 0 12px;
+      line-height: 1.35;
+    }
+    .lead {
+      font-size: 15px;
+      line-height: 2;
+      color: var(--muted);
+      font-weight: 600;
+      margin: 0 0 48px;
+    }
+    .cards { display: grid; gap: 16px; }
+    .card {
+      display: block;
+      padding: 24px 28px;
+      background: var(--beige);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(31, 77, 58, 0.1);
+    }
+    .card-tag {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .card h2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--green);
+      margin: 0 0 8px;
+    }
+    .card p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #3a4a45;
+      line-height: 1.8;
+    }
+    footer {
+      margin-top: 56px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="label">NUMEROLOGY STUDY NOTES</p>
+    <h1>数秘術 学習ノート</h1>
+    <p class="lead">
+      ジョン・キング『数秘術』スクール研修用。<br>
+      各章を開くと、折りたたみ解説・表・図付きの学習ページが表示されます。
+    </p>
+
+    <div class="cards">
+      <a class="card" href="/chapter-4.html">
+        <p class="card-tag">第4章 · pp.146–159</p>
+        <h2>珍しい数と数の型</h2>
+        <p>魔方陣、π・虚数・オイラー数、プラトン的数、巨大な数と無限大</p>
+      </a>
+      <a class="card" href="/chapter-5.html">
+        <p class="card-tag">第5章 · pp.162–198</p>
+        <h2>カバラ、それを超えて</h2>
+        <p>ゲマトリア、22文字、生命の樹、十セフィロト、タロット対応</p>
+      </a>
+    </div>
+
+    <footer>
+      出典：ジョン・キング『数秘術』／ スクール研修用
+    </footer>
+  </div>
+</body>
+</html>
