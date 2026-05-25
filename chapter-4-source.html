@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第4章 珍しい数と数の型 — 原文テキスト</title>
+  <style>
+    :root {
+      --green: #1F4D3A; --gold: #C6A85C; --beige: #F5F3E7;
+      --navy: #243A5E; --ink: #17352D; --text: #21342F;
+      --muted: #6B7A75; --line: #E4E2D8; --white: #fff;
+      --radius: 6px; --max: 820px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    .source-text {
+      font-family: "Inter", "Zen Kaku Gothic New", system-ui, sans-serif;
+      color: var(--text);
+      background: linear-gradient(90deg, #fff 0%, #fff 55%, #fbfaf4 100%);
+      line-height: 1.85; letter-spacing: 0.02em;
+      padding: 48px 24px 96px;
+    }
+    .wrap { max-width: var(--max); margin: 0 auto; }
+    .hero { padding-bottom: 40px; border-bottom: 1px solid var(--line); margin-bottom: 48px; }
+    .hero-label { font-size: 12px; font-weight: 800; letter-spacing: 0.28em; color: var(--gold); margin: 0 0 12px; }
+    h1 { font-size: clamp(28px, 4vw, 36px); font-weight: 900; color: var(--green); margin: 0 0 16px; line-height: 1.35; }
+    .hero-meta { font-size: 14px; color: var(--muted); font-weight: 600; margin: 0; }
+    .hero-meta strong { color: var(--ink); }
+    .hero-meta a { color: var(--green); }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 12px; font-size: 14px; font-weight: 700; }
+    .nav-links a { color: var(--green); text-decoration: none; }
+    .nav-links a:hover { text-decoration: underline; }
+    .content h2 {
+      font-size: clamp(20px, 3vw, 26px); font-weight: 900; color: var(--green);
+      margin: 48px 0 16px; padding-top: 24px; border-top: 1px solid var(--line);
+    }
+    .content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    .content h3 { font-size: 17px; font-weight: 800; color: var(--navy); margin: 28px 0 10px; }
+    .content p, .content li { font-size: 15px; font-weight: 600; color: #3a4a45; }
+    .content p { margin: 0 0 1em; }
+    .content ul, .content ol { margin: 0 0 1.2em; padding-left: 1.4em; }
+    .content li { margin-bottom: 0.35em; }
+    .content blockquote {
+      margin: 0 0 24px; padding: 16px 20px;
+      background: var(--beige); border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 14px; font-weight: 700; color: var(--ink);
+    }
+    .content blockquote p { margin: 0 0 0.5em; }
+    .content blockquote p:last-child { margin-bottom: 0; }
+    .content hr { border: none; border-top: 1px solid var(--line); margin: 32px 0; }
+    .content table {
+      width: 100%; border-collapse: collapse; margin: 16px 0 20px;
+      font-size: 13px; font-weight: 700;
+    }
+    .content th { background: var(--green); color: var(--white); padding: 8px 10px; text-align: left; }
+    .content td { padding: 8px 10px; border-bottom: 1px solid var(--line); background: var(--white); }
+    .content tr:nth-child(even) td { background: #faf9f4; }
+    .content .table-scroll { overflow-x: auto; margin: 16px 0 20px; }
+    .content code {
+      font-family: "Cambria Math", Consolas, monospace;
+      font-size: 0.92em; background: var(--beige);
+      padding: 2px 6px; border-radius: 3px;
+    }
+    .content ul li { list-style: disc; }
+    .content ol li { list-style: decimal; }
+    .content strong { font-weight: 800; color: var(--ink); }
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 800;
+      letter-spacing: 0.12em; color: var(--white); background: var(--navy);
+      padding: 4px 10px; border-radius: 3px; margin-bottom: 8px;
+    }
+    footer { margin-top: 48px; font-size: 12px; color: var(--muted); text-align: center; font-weight: 600; }
+    .hebrew { font-family: "Times New Roman", serif; direction: rtl; }
+</style>
+</head>
+<body>
+<div class="source-text">
+<div class="wrap">
+
+<header class="hero">
+  <p class="hero-label">SOURCE TEXT — CHAPTER 4</p>
+  <span class="badge">原文表示</span>
+  <h1>第4章「珍しい数と数の型」<br>原文テキスト</h1>
+  <p class="hero-meta">
+    出典：<strong>『数秘術』ジョン・キング著</strong>　／　pp.146–159<br>MD要約から生成した原文表示ページ<br>
+    <span class="nav-links">
+      <a href="/">← 目次に戻る</a>
+      <a href="/chapter-4.html">→ 学習ノート（解説付き）</a>
+    </span>
+  </p>
+</header>
+
+<article class="content">
+<h2>1. カプレカー数</h2>
+<p>カプレカー数を左側と右側に分けて加えると、元の数に戻る。</p>
+<p><strong>例：</strong> 2,223 → 494 + 1,729 = 2,223</p>
+<p><strong>数列：</strong> 1, 9, 45, 55, 99, 297, 703, 999, 2,223, 2,728, 7,272, 7,777…</p>
+<p>隣接する対は10の累乗の和を作る：<br />
+- 45 + 55 = 100<br />
+- 297 + 703 = 1,000<br />
+- 2,728 + 7,272 = 10,000</p>
+<p><strong>数秘術的な意味：</strong> 行き詰まり、閉じた環、無益または余分な過程を示唆する。現代にのみ発見され、伝統的数秘術には登場しない。</p>
+<hr />
+<h2>2. 魔方陣（魔方陣）</h2>
+<p>最も古い興味深い数の型のひとつが<strong>魔方陣</strong>——各行・各列・各対角線の和が等しい格子である。</p>
+<p>古代中国の<strong>洛書</strong>（9の正方形）が知られていた。古典・中世の数秘術者は、惑星や神性に捧げられた<strong>7つの魔方陣</strong>を崇拝し、それぞれが特別な性質を持っていた。数秘術の発展において中心的な役割を果たした。</p>
+<hr />
+<h2>3. 土星の正方形（3×3）— 図26</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>4</th>
+<th>9</th>
+<th>2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>5</td>
+<td>7</td>
+</tr>
+<tr>
+<td>8</td>
+<td>1</td>
+<td>6</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>格子：</strong> 3×3（9マス）；基になる数は3</li>
+<li><strong>魔方定数（各ラインの和）：</strong> 15</li>
+<li><strong>全体の和：</strong> 45</li>
+<li>15と45はともに<strong>三角形数</strong></li>
+<li>45は<strong>カプレカー数</strong>でもある</li>
+<li>1から9までの全数字を含む（ゼロはギリシャ人には理解されなかった）；ここから他のすべての数が作られる</li>
+<li><strong>惑星：</strong> 土星（サトゥルヌス／クロノス）——最初の、古代の時の神</li>
+<li><strong>色：</strong> 正方形＝黒、数＝白（別の伝統では背景青、数は黄褐色）</li>
+</ul>
+<p><strong>手書きメモ：</strong> 土星＝制限、死…；ヒポクラテスの四体液説——黒胆汁（<em>melas khole</em>）の過剰→憂鬱（メランコリア）</p>
+<hr />
+<h2>4. 木星の正方形（4×4）— 図27</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>4</th>
+<th>14</th>
+<th>15</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9</td>
+<td>7</td>
+<td>6</td>
+<td>12</td>
+</tr>
+<tr>
+<td>5</td>
+<td>11</td>
+<td>10</td>
+<td>8</td>
+</tr>
+<tr>
+<td>16</td>
+<td>2</td>
+<td>3</td>
+<td>13</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>魔方定数：</strong> 34（ピタゴラス的には最初の女性数2＋男性素数31）</li>
+<li><strong>全体の和：</strong> 136</li>
+<li><strong>興味深い関係：</strong></li>
+<li>1³ + 3³ + 6³ = 244</li>
+<li>2³ + 4³ + 4³ = 136<br />
+  （136と244は互いの桁の立方和）</li>
+<li><strong>数4：</strong> 強い基礎数——世俗的・実用的・現実的なもの</li>
+<li><strong>デューラー『メランコリア I』（1514）：</strong> 右上に木星魔方陣の変種が描かれ、世俗的事柄への重い影響を示す</li>
+<li><strong>手書きメモ：</strong> 土星の憂鬱を描いた絵；右上に木星の魔方陣を置くことで和らげ・守る。「完全には理解できない…知性は自らの限界を知った…」</li>
+</ul>
+<hr />
+<h2>5. 火星の正方形（5×5）— 図28</h2>
+<ul>
+<li><strong>中心：</strong> 13（縁起の良い男性素数）</li>
+<li><strong>魔方定数：</strong> 65</li>
+<li>65は二つの平方の和として2通りで表せる：8² + 1² = 65、7² + 4² = 65</li>
+<li>65 = 5 × 13（ともに高度に力のある数）</li>
+<li><strong>全体の和：</strong> 325——二つの平方の和として三種類の異なる方法で表される最小の数：<br />
+  1² + 18² = 325、6² + 17² = 325、10² + 15² = 325</li>
+<li><strong>色：</strong> 背景＝赤、数＝緑</li>
+</ul>
+<hr />
+<h2>6. 太陽の正方形（6×6）— 図29</h2>
+<ul>
+<li><strong>マス数：</strong> 36</li>
+<li><strong>魔方定数：</strong> 111（レプユニット；最初の11個の素数からなる最小魔方陣の定数——89頁参照）</li>
+<li><strong>全体の和：</strong> 666——黙示録の獣の数（第6章で詳述）</li>
+<li><strong>色：</strong> 背景＝黄色、数＝紫または紫紅色</li>
+</ul>
+<hr />
+<h2>7. 金星の正方形（7×7）— 図30</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>22</th>
+<th>47</th>
+<th>16</th>
+<th>41</th>
+<th>10</th>
+<th>35</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>23</td>
+<td>48</td>
+<td>17</td>
+<td>42</td>
+<td>11</td>
+<td>29</td>
+</tr>
+<tr>
+<td>30</td>
+<td>6</td>
+<td>24</td>
+<td>49</td>
+<td>18</td>
+<td>36</td>
+<td>12</td>
+</tr>
+<tr>
+<td>13</td>
+<td>31</td>
+<td>7</td>
+<td>25</td>
+<td>43</td>
+<td>19</td>
+<td>37</td>
+</tr>
+<tr>
+<td>38</td>
+<td>14</td>
+<td>32</td>
+<td>1</td>
+<td>26</td>
+<td>44</td>
+<td>20</td>
+</tr>
+<tr>
+<td>21</td>
+<td>39</td>
+<td>8</td>
+<td>33</td>
+<td>2</td>
+<td>27</td>
+<td>45</td>
+</tr>
+<tr>
+<td>46</td>
+<td>15</td>
+<td>40</td>
+<td>9</td>
+<td>34</td>
+<td>3</td>
+<td>28</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>マス数：</strong> 49（神聖な7 × 神聖な7）</li>
+<li><strong>魔方定数：</strong> 175（= 1² + 7² + 5²）</li>
+<li><strong>全体の和：</strong> 1,225（= 35²）——正方形数かつ三角形数（稀）</li>
+<li><strong>中心：</strong> 25；ウラムの大模様が驚くべき素数の対角線型を露わにする（137頁参照）</li>
+<li><strong>関連：</strong> 伝統的に<strong>癒し</strong>と結びつく</li>
+<li><strong>色：</strong> 数＝レモン色、背景＝暗い緑（太陽の正方形の色の反対）</li>
+</ul>
+<hr />
+<h2>8. 水星の正方形（8×8）— 図31</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>8</th>
+<th>58</th>
+<th>59</th>
+<th>5</th>
+<th>4</th>
+<th>62</th>
+<th>63</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>49</td>
+<td>15</td>
+<td>14</td>
+<td>52</td>
+<td>53</td>
+<td>11</td>
+<td>10</td>
+<td>56</td>
+</tr>
+<tr>
+<td>41</td>
+<td>23</td>
+<td>22</td>
+<td>44</td>
+<td>45</td>
+<td>19</td>
+<td>18</td>
+<td>48</td>
+</tr>
+<tr>
+<td>32</td>
+<td>34</td>
+<td>35</td>
+<td>29</td>
+<td>28</td>
+<td>38</td>
+<td>39</td>
+<td>25</td>
+</tr>
+<tr>
+<td>40</td>
+<td>26</td>
+<td>27</td>
+<td>37</td>
+<td>36</td>
+<td>30</td>
+<td>31</td>
+<td>33</td>
+</tr>
+<tr>
+<td>17</td>
+<td>47</td>
+<td>46</td>
+<td>20</td>
+<td>21</td>
+<td>43</td>
+<td>42</td>
+<td>24</td>
+</tr>
+<tr>
+<td>9</td>
+<td>55</td>
+<td>54</td>
+<td>12</td>
+<td>13</td>
+<td>51</td>
+<td>50</td>
+<td>16</td>
+</tr>
+<tr>
+<td>64</td>
+<td>2</td>
+<td>3</td>
+<td>61</td>
+<td>60</td>
+<td>6</td>
+<td>7</td>
+<td>57</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>マス数：</strong> 64</li>
+<li><strong>魔方定数：</strong> 260</li>
+<li><strong>全体の和：</strong> 2,080</li>
+<li><strong>注：</strong> すべての魔方陣の中で最も一般性が少ない</li>
+<li><strong>色：</strong> 数＝薄い青、背景＝黄褐色のオレンジ</li>
+</ul>
+<hr />
+<h2>9. 月の正方形（9×9）— 図32</h2>
+<ul>
+<li><strong>格子：</strong> 9×9</li>
+<li>（本文は色の説明の途中で途切れる）</li>
+</ul>
+<hr />
+<h2>10. 魔方陣と中世の錬金術</h2>
+<p>中世の錬金術では、各魔方陣と対応する惑星が特定の<strong>金属</strong>と結びついていた。錬金術の本質的な追求は、単に下等金属を金に変えること（しばしばそう描かれる）ではなく、<strong>現世的なものを精神的なものへと変換する</strong>というより高貴な目的であった。</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>惑星／魔方陣</th>
+<th>金属</th>
+<th>象徴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>土星</td>
+<td>鉛</td>
+<td>魂の光を隠蔽する肉体；多くの放射線に対する防御</td>
+</tr>
+<tr>
+<td>木星</td>
+<td>錫</td>
+<td>肉体の束縛から離脱する魂；鉱石は岩中では暗いが、熱すれば銀白色に流動</td>
+</tr>
+<tr>
+<td>火星</td>
+<td>鉄</td>
+<td>精神を越える肉体の優勢</td>
+</tr>
+<tr>
+<td>太陽</td>
+<td>金</td>
+<td>宇宙の中心にある精神的真理</td>
+</tr>
+<tr>
+<td>金星</td>
+<td>銅</td>
+<td>鏡の金属；鉄の対極——肉体を越える精神の優勢</td>
+</tr>
+<tr>
+<td>水星</td>
+<td>水銀</td>
+<td>精神と肉体の完全な平衡</td>
+</tr>
+<tr>
+<td>月</td>
+<td>銀</td>
+<td>精神の完全な反映者としての魂</td>
+</tr>
+</tbody>
+</table></div>
+<p>中世の錬金術師は、各正方形と金属における魂・精神と肉体の関係を直観的に知っていたと思われる。</p>
+<hr />
+<h2>11. 円周率 π</h2>
+<p>魔方陣より古いのが、無理数 <strong>π</strong> への魅力である。</p>
+<h3>歴史的近似値</h3>
+<ul>
+<li><strong>アーメス（リンド・パピルス）：</strong> 円の面積＝直径の8/9の平方 → π ≈ (16/9)² ≈ <strong>3.16049…</strong></li>
+<li><strong>列王記上7:23：</strong> ソロモンの溶けた海——直径10キュビット、周囲30キュビット → π ≈ <strong>3</strong></li>
+</ul>
+<h3>性質</h3>
+<ul>
+<li>約1,600万小数位まで計算；終わりや繰り返しパターンの兆候なし</li>
+<li><strong>ファインマン・ポイント：</strong> 762〜769桁目に6つの連続した9</li>
+<li>円周：2πr　面積：πr²</li>
+<li><strong>超越的</strong>実数——整数係数の方程式の解として書けない</li>
+<li>一般的近似：22/7；より良い近似：355/113</li>
+</ul>
+<h3>円方問題</h3>
+<p>ギリシャ人らは<strong>円を正方形化する</strong>こと——与えられた図形と同面積の正方形を作ること——に悩んだ。ヒポクラテスは<strong>月形（ルーン）</strong>の正方形化に成功し、円も可能ではないかと刺激を与えた。しかし二千年の試みの末、<strong>円の正方形化は不可能</strong>であることが確かになった。</p>
+<h3>数秘術において</h3>
+<p>πは伝統的数秘術で卓越した役割を果たさないが、<strong>e</strong> と <strong>i</strong> とともに、総合的な現代数秘術に含めるべきである。</p>
+<p><strong>小数第6位までの覚え歌：</strong></p>
+<blockquote>
+<p>"How I wish I could calculate pi..."<br />
+→ <strong>3.141592…</strong>（各単語の文字数）</p>
+</blockquote>
+<hr />
+<h2>12. 虚数 i とオイラーの公式</h2>
+<h3>虚数単位 i</h3>
+<ul>
+<li>i = √−1——自乗すると −1 になる数</li>
+<li>通常の意味では「存在しない」が、方程式では完全に使える</li>
+<li><strong>複素数：</strong> 実数＋iの倍数（例：2 + 3i）</li>
+<li>例：(2 + 3i) − (4 + 5i) = −2 − 2i</li>
+<li>掛け算・割り算には<strong>共役複素数</strong>が関わる</li>
+<li>「非実在」ながら、素粒子・最小測定時間・宇宙の極端な現象の記述に不可欠</li>
+</ul>
+<h3>オイラーの公式</h3>
+<p>π、i、e の複雑な関係は次式に要約される：</p>
+<p><strong>e^(πi) = −1</strong></p>
+<p><strong>レオナルド・オイラー</strong>（1707–1783）が i と e に名を付け、この公式を示した。</p>
+<hr />
+<h2>13. オイラー数 e</h2>
+<ul>
+<li><strong>値（30小数位）：</strong> 2.718281828459045235360287471352…</li>
+<li><strong>無理数</strong>かつ<strong>超越数</strong></li>
+<li><strong>自然対数</strong>の底</li>
+</ul>
+<hr />
+<h2>14. 対数と指数関数（156頁）</h2>
+<h3>対数（底10）</h3>
+<p>500は 10² より大きく 10³ より小さい。指数は2と3のあいだ。小数を使えば：</p>
+<p>500 = 10^2.698970004…</p>
+<p>この指数2.698970004…が、底10の<strong>対数</strong>である。対数キー付き計算機で確認すると、10〜100の数の対数は1から始まり、100〜1,000は2から始まる（小数点以下の桁数付き）。対数の用途は第8章で詳述。</p>
+<h3>指数関数</h3>
+<ul>
+<li><strong>べき関数：</strong> f(x) = x²（x=3 なら f(x)=9）</li>
+<li><strong>指数関数：</strong> f(x) = 2^x（x=3 なら f(x)=8）——定数を変数の冪まで乗算</li>
+<li>底として使えない唯一の定数は1</li>
+<li>微積分では底 <strong>e</strong> を用いる：f(x) = e^x は自然対数の逆関数</li>
+<li>e は積分・微分で本質的な役割を果たす</li>
+</ul>
+<h3>オイラーの公式の解釈</h3>
+<p>e^(πi) = −1</p>
+<p>2.718281… を π × √−1 まで乗算すると −1 になる。</p>
+<p>非数学者にとって虚数・複素数の意味は理解しにくいが、それらなしには現代の物理学・数学の知識は獲得できない。666については別途論じる（第6章）。</p>
+<hr />
+<h2>15. 特別な個別の数（157頁）</h2>
+<p>666のような有名な数以外にも、歴史的・数秘術的に特別な意味を持つ個別の数がある。</p>
+<h3>24 と階乗</h3>
+<ul>
+<li><strong>24：</strong> 1日の時間数；4の階乗 4! = 4×3×2×1 = 24</li>
+<li>4! は俗に「四つの悲鳴」「四つの強打音」とも呼ばれる</li>
+<li><strong>10!</strong> = 3,628,800</li>
+<li><strong>1,000,000!</strong>（Harry Nelson &amp; David Slowinski 計算）：5,565,709桁；コンピュータ出力で約13cmの厚さ</li>
+</ul>
+<h3>46</h3>
+<ul>
+<li><strong>欽定訳聖書</strong>と<strong>シェイクスピア</strong>の関連で有名</li>
+<li>詩篇46篇：最初から46番目の単語が "shake"、最後から46番目が "spear"</li>
+<li>欽定訳完成（1610年頃）当時、シェイクスピアは46歳</li>
+</ul>
+<h3>153</h3>
+<ul>
+<li><strong>新約：</strong> ティベリヤスの海でシモン・ペテロが釣り上げた魚の数</li>
+<li><strong>聖アウグスティヌス</strong>が特別視</li>
+</ul>
+<h3>216（プラトンの数）</h3>
+<ul>
+<li>3つの立方の和である最小の立方：3³ + 4³ + 5³ = 216 = 6³</li>
+</ul>
+<hr />
+<h2>16. プラトン的数と巡回数（158頁）</h2>
+<h3>729</h3>
+<ul>
+<li>プラトン『国家』：王は専制君主より729倍幸せ、と述べる場面</li>
+<li>729 = 27² = 364 + 365（暦的なつながり）</li>
+</ul>
+<h3>5,040</h3>
+<ul>
+<li>プラトンが理想の町の住民数として与えた数</li>
+<li>1から10までの任意の数で割り切れる</li>
+</ul>
+<h3>1,296,000</h3>
+<ul>
+<li>216 × 60,000</li>
+<li>プラトン的／プラトン年を含む暦の周期と結びつく（正確な意義は不明）</li>
+</ul>
+<h3>142,857（巡回数）</h3>
+<p>1〜6のいずれかで掛けると、同じ数字が順序を変えて現れる：</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>掛け算</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 × 142,857</td>
+<td>142,857</td>
+</tr>
+<tr>
+<td>2 × 142,857</td>
+<td>285,714</td>
+</tr>
+<tr>
+<td>3 × 142,857</td>
+<td>428,571</td>
+</tr>
+<tr>
+<td>4 × 142,857</td>
+<td>571,428</td>
+</tr>
+<tr>
+<td>5 × 142,857</td>
+<td>714,285</td>
+</tr>
+<tr>
+<td>6 × 142,857</td>
+<td>857,142</td>
+</tr>
+</tbody>
+</table></div>
+<h3>その他</h3>
+<ul>
+<li><strong>1,234,567,891</strong> は素数（2,345,678,901,234,567,891 や 1,234,567,891,234,567,891,234,567,891 も同様の型）</li>
+<li>当時最大の既知素数：2^756,839 − 1（227,809桁）※訳注：現時点では 2^3,021,377 − 1（909,526桁）が最大</li>
+</ul>
+<hr />
+<h2>17. 巨大な数・確率・無限大（159頁）</h2>
+<h3>チェス盤と米</h3>
+<p>古代インドの伝説：第1マスに1粒、第2に2粒、第3に4粒…と倍々に増やすと、64マス目の米粒の総数は <strong>2^64 − 1</strong> = 18,446,744,073,709,551,615 粒。全世界を約2.5cmの厚さで覆うに十分、という。</p>
+<h3>ブリッジの確率</h3>
+<p>トランプのブリッジで、4人が1回の配りでそれぞれ完全な一組（52枚全部）を受け取る確率：</p>
+<p><strong>1 / 2,235,197,406,895,366,368,301,560,000</strong></p>
+<p>この数は実際にオイラーの e と関係している（詳細は明らかでない）。</p>
+<h3>無限大 ∞</h3>
+<p>最も大きい数は無限大（∞）。∞+1、∞+∞、∞^∞ など——数論学者は無限の倍数の上限に首を突っ込むのを楽しむ。そこでは通常の言葉と記号は破綻し、特別な表記法が必要になる。数学的雰囲気は純粋哲学に近づく。</p>
+<hr />
+<h2>18. 次章への橋渡し</h2>
+<p>数の歴史を概括し、ある種の数の特質と型に馴染んできた。次に、数秘術の最も大切な考えの多くについての豊かで霊感を与える源である<strong>ヘブライ・カバラ</strong>の詳細を確かめる。</p>
+<hr />
+<h2>図表・参照一覧</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>図</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>図26</td>
+<td>土星の正方形（3×3）</td>
+</tr>
+<tr>
+<td>図27</td>
+<td>木星の正方形（4×4）</td>
+</tr>
+<tr>
+<td>図28</td>
+<td>火星の正方形（5×5）</td>
+</tr>
+<tr>
+<td>図29</td>
+<td>太陽の正方形（6×6）</td>
+</tr>
+<tr>
+<td>図30</td>
+<td>金星の正方形（7×7）</td>
+</tr>
+<tr>
+<td>図31</td>
+<td>水星の正方形（8×8）</td>
+</tr>
+<tr>
+<td>図32</td>
+<td>月の正方形（9×9）</td>
+</tr>
+<tr>
+<td>図33</td>
+<td>円の円周と面積</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>相互参照：</strong> 89頁（レプユニット）、137頁（ウラムの大模様）、第6章（666）、第8章（対数の用途）</p>
+</article>
+
+<footer>
+  出典：ジョン・キング『数秘術』／ スクール研修用
+</footer>
+
+</div>
+</div>
+</body>
+</html>

@@ -61,9 +61,32 @@
       color: inherit;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .card:hover {
+    .card-group:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 28px rgba(31, 77, 58, 0.1);
+    }
+    .card-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .card-links a {
+      display: inline-block;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--green);
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .card-links a:hover {
+      background: var(--green);
+      color: var(--white);
+      border-color: var(--green);
     }
     .card-tag {
       font-size: 11px;
@@ -100,20 +123,28 @@
     <h1>数秘術 学習ノート</h1>
     <p class="lead">
       ジョン・キング『数秘術』スクール研修用。<br>
-      各章を開くと、折りたたみ解説・表・図付きの学習ページが表示されます。
+      各章は「学習ノート（解説付き）」と「原文テキスト（MD要約）」の2種類から選べます。
     </p>
 
     <div class="cards">
-      <a class="card" href="/chapter-4.html">
+      <article class="card card-group">
         <p class="card-tag">第4章 · pp.146–159</p>
         <h2>珍しい数と数の型</h2>
         <p>魔方陣、π・虚数・オイラー数、プラトン的数、巨大な数と無限大</p>
-      </a>
-      <a class="card" href="/chapter-5.html">
+        <div class="card-links">
+          <a href="/chapter-4.html">学習ノート</a>
+          <a href="/chapter-4-source.html">原文テキスト</a>
+        </div>
+      </article>
+      <article class="card card-group">
         <p class="card-tag">第5章 · pp.162–198</p>
         <h2>カバラ、それを超えて</h2>
         <p>ゲマトリア、22文字、生命の樹、十セフィロト、タロット対応</p>
-      </a>
+        <div class="card-links">
+          <a href="/chapter-5.html">学習ノート</a>
+          <a href="/chapter-5-source.html">原文テキスト</a>
+        </div>
+      </article>
     </div>
 
     <footer>
